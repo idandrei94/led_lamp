@@ -1,0 +1,8 @@
+Green				0
+White				1
+Orange				2
+Green Pulse			3
+Green Double Pulse		4
+Fenix Pulse			5
+Fenix Double Pulse		6
+Disable				9 
