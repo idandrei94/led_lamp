@@ -74,17 +74,16 @@ void draw_rainbow()
   rainbow_step(rainbow);
   rainbow_color copy = rainbow;
   rgb_color c = toRGB(copy);
-  colors[0] = c;
-  for(uint8_t i = 1; i < LED_COUNT/2; ++i)
+  for(uint8_t i = 0; i < LED_COUNT/2; ++i)
   {
-    for(uint8_t j = 0; j < 255*3/(LED_COUNT/2-1); ++j)
+    for(uint8_t j = 0; j < 5; ++j)
     {
       rainbow_step(copy);
     } 
-    colors[LED_COUNT/2-1-i] = colors[LED_COUNT/2-1+i] = toRGB(copy);
+    colors[i] = colors[LED_COUNT-1-i] = toRGB(copy);
   }
   ledStrip.write(colors, LED_COUNT);
-  delay(10);
+  delay(8);
 }
 
 void draw_pulse(rgb_color base, rgb_color pulse, int length)
@@ -275,9 +274,13 @@ void disable()
 
 void handle_HC12_command()
 {
-  if(!HC12.available())
+  byte code;
+  if(!HC12.available() && !Serial.available())
     return;
-  byte code = HC12.read();
+  if(HC12.available())
+    code = HC12.read();
+  else
+    code = Serial.read();
   Serial.print("Read ");
   Serial.println((char)code);
   switch(code)
